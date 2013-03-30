@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="tr">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Javascript Sourcemaps - Murat Çorlu</title>
+
+		<meta name="description" content="JsPyConf 2013: Javascript Sourcemaps sunumu">
+		<meta name="author" content="Murat Çorlu">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+		<script>
+		    function getStyle(element, style) {
+		        var result;
+
+		        if (document.defaultView && document.defaultView.getComputedStyle) {
+		            result = document.defaultView.getComputedStyle(element, '').getPropertyValue(style);
+		        } else if(element.currentStyle) {
+		            style = style.replace(/\-(\w)/g, function (strMatch, p1) {
+		                return p1.toUpperCase();
+		            });
+		            result = element.currentStyle[style];
+		        }
+		        return result;
+		    }
+
+		    function replaceRecursive(element) {
+		        if (element && element.style && getStyle(element, 'text-transform') == 'uppercase' && ( !element.lang || element.lang == 'tr' )) {
+		            element.innerHTML = element.innerHTML.replace(/ı/g, 'I');
+		            element.innerHTML = element.innerHTML.replace(/i/g, 'İ');    // replaces 'i' in tags too, regular expression should be extended if necessary
+		        }
+
+		        if (!element.childNodes || element.childNodes.length == 0) return;
+
+		        for (var n in element.childNodes) {
+		            replaceRecursive(element.childNodes[n]);
+		        }
+		    }
+
+		    window.onload = function() {    // as appropriate 'ondomready'
+		        replaceRecursive(document.getElementsByTagName('body')[0]);
+		    }
+		</script>
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+
+				<section>
+					<h1 lang="en">Javascript Sourcemaps</h1>
+					<h3>Debug ediyorum, öyleyse varım.</h3>
+					<p>
+						<small><a href="http://muratcorlu.com">Murat Çorlu</a> / <a href="http://twitter.com/muratcorlu">@muratcorlu</a></small>
+					</p>
+				</section>
+
+				<section>
+					<h2>Murat Çorlu</h2>
+					<ul>
+						<li><a href="http://www.sahibinden.com" class="sahibindenLogo">sahibinden.com</a>'da Front-end Developer</li>
+						<li><a href="http://twitter.com/muratcorlu">muratcorlu@twitter</a></li>
+						<li><a href="http://github.com/muratcorlu">muratcorlu@github</a></li>
+					</ul>
+
+					<aside class="notes">
+
+					</aside>
+				</section>
+
+				<section data-state="frontend-world">
+					<h2>Yeni Front-end Dünyası</h2>
+					<ul>
+						<li class="fragment">Web "sitesi" değil, web "uygulaması"</li>
+						<li class="fragment">Mobil dünyada front-endin gücü</li>
+						<li class="fragment">Sunucu ile paylaşılabilen kodlar (Node.js)</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Buraya nasıl geldik?</h2>
+					<ul>
+						<li class="fragment">Javascriptleri birleştirip küçültüyoruz...</li>
+						<li class="fragment">Coffeescript yazıyoruz...</li>
+						<li class="fragment">LESS, SASS, Stylus kullanıyoruz...</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Peki nereye vardık?</h2>
+				</section>
+
+				<section>
+					<blockquote>"a is undefined" h2hda9ha9f2rhqjwue.js line 1 col 36126</blockquote>
+
+					<aside class="notes">Firebug ekran görüntüsü</aside>
+				</section>
+
+				<section>
+					<h2>Yayın ortamında debug etmek mi?</h2>
+					<ul>
+						<li class="fragment">Gerekli mi?</li>
+						<li class="fragment">Hatayı tekrarlama zorluğu</li>
+						<li class="fragment">Coffeescript, SASS-LESS...</li>
+					</ul>
+					<p class="fragment">Neyse ki kalıcı bir çözümümüz var...</p>
+				</section>
+
+				<section>
+					<h1>SOURCE MAPS</h1>
+					<h2>Kodun kaynağına ulaşmak</h2>
+				</section>
+
+				<section>
+					<h2>Nelerle kullanabilirim?</h2>
+					<ul>
+						<li class="fragment">Closure Compiler</li>
+						<li class="fragment">UglifyJS</li>
+						<li class="fragment">Coffeescript</li>
+						<li class="fragment">SASS</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Hangi browserlar destekliyor?</h2>
+					<ul>
+						<li class="fragment">Chrome</li>
+						<li class="fragment">Firefox (yolda)</li>
+						<li class="fragment">Internet Explorer 17</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Sourcemap nasıl üretilir</h2>
+					<h3 lang="en">Closure Compiler</h3>
+					<pre><code>
+java -jar compiler.jar \
+     --js script.js \
+     --create_source_map ./script-min.js.map \
+     --source_map_format=V3 \
+     --js_output_file script-min.js
+     				</code></pre>
+				</section>
+
+				<section>
+					<h2>Sourcemap nasıl üretilir</h2>
+					<h3 lang="en">CoffeeScript</h3>
+					<pre><code>
+coffee --map --compile src/*.coffee
+     				</code></pre>
+				</section>
+
+				<section>
+					<h2>Sourcemap neye benzer?</h2>
+
+					<pre><code>
+{
+  "version": 3,
+  "file": "script.js",
+  "sourceRoot": "..",
+  "sources": [
+    "source/script.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;CAAA,KAAA,qCAAA;KAAA; ......... ,CAAH;CApBA"
+}
+     				</code></pre>
+
+				</section>
+
+				<section>
+					<h2>Sourcemap'in tarayıcıya gösterimi</h2>
+					<p>Compile edilmiş dosyaya aşağıdaki satır eklenerek sourcemap'i belirtilebiliyor.</p>
+					<pre><code>
+//@ sourceMappingURL=script.coffee.js.map
+     				</code></pre>
+
+     				<p>Ayrıca dosyanın HTTP header bilgisi ile de belirtilebiliyor:</p>
+					<pre><code>
+X-SourceMap: /path/to/file.js.map
+     				</code></pre>
+
+				</section>
+
+				<section>
+					<h2>Kaynağı ziyaretçiye açmak mı?</h2>
+
+					<ul>
+						<li class="fragment">Sourcemap klasörünü belirli ip'ler dışına yasaklamak</li>
+						<li class="fragment">X-SourceMap header'ını belirli ziyaretilere göndermek</li>
+						<li class="fragment">Sourcemap'leri sadece lokal veya test makinesinde tutmak</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Hadi elimizi kirletelim!</h2>
+
+					<aside class="notes">
+						<ul>
+							<li>chrome://flags</li>
+							<li>Enable Developer Tools Experiments</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h1>Sorusu olan?</h1>
+				</section>
+
+				<section>
+					<h1>Teşekkürler!</h1>
+					<h3>Murat Çorlu / muratcorlu.com</h3>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: false,
+				progress: false,
+				history: true,
+				center: true,
+
+				theme: 'solarized', // available themes are in /css/theme
+				transition: 'page', // default/cube/page/concave/zoom/linear/fade/none
+
+			    // Generate a unique id and secret at revealjs.jit.su/token
+			    /*multiplex: {
+			        id: '13626efafbf0f49e',
+			        secret: '', //13640422354303653013
+			        url: 'revealjs.jit.su:80'
+			    },*/
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					// { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+					// { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } },
+			        { src: 'lib/js/socket.io.js', async: true }
+			        //{ src: 'plugin/notes-server/client.js', async: true },
+			        //{ src: 'plugin/multiplex/client.js', async: true },
+			        //{ src: 'plugin/multiplex/master.js', async: true }
+				]
+			});
+
+			Reveal.addEventListener( 'frontend-world', function() {
+				console.log( '"customevent" has fired' );
+			} );
+		</script>
+
+	</body>
+</html>
