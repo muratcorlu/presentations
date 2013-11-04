@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="tr">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>Sahibinden.com yeni Front-end mimarisi</title>
+
+        <meta name="description" content="Sahibinden.com'da kullanılan yeni front-end mimarisi">
+        <meta name="author" content="Murat Çorlu">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <link rel="stylesheet" href="css/reveal.min.css">
+        <link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+        <script>
+            document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+        </script>
+
+        <style>
+            body:after,
+            .logo {
+                background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNi4wLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iNTcycHgiIGhlaWdodD0iMTIzcHgiIHZpZXdCb3g9IjAgMCA1NzIgMTIzIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA1NzIgMTIzIiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxwb2x5Z29uIGZpbGw9IiNGRkU4MDAiIHBvaW50cz0iNTU2LjU1MiwtMC4wNTggNTQwLjM3NCwtMC4wNTggMzEuMSwtMC4wNTggMTQuOTIzLC0wLjA1OCAwLjE0MSwtMC4wNTggMC4xNDEsMTQuNzI0IDAuMTQxLDIyLjI3OSANCgkwLjE0MSwxMDAuNTMzIDAuMTQxLDEwOC4wODggMC4xNDEsMTIyLjg3MSAxNC45MjMsMTIyLjg3MSAzMS4xLDEyMi44NzEgNTQwLjM3NCwxMjIuODcxIDU1Ni41NTIsMTIyLjg3MSA1NzEuMzMzLDEyMi44NzEgDQoJNTcxLjMzMywxMDguMDg4IDU3MS4zMzMsMTAwLjUzMyA1NzEuMzMzLDIyLjI3OSA1NzEuMzMzLDE0LjcyNCA1NzEuMzMzLC0wLjA1OCAiLz4NCjxnPg0KCTxyZWN0IHg9IjIwMC4yMzciIHk9IjMyLjc3OSIgd2lkdGg9IjExLjE2OCIgaGVpZ2h0PSI5LjIwMiIvPg0KCTxnPg0KCQk8cGF0aCBkPSJNMjQuNDc0LDc1LjcyM2MwLjA3NSw0Ljg3NSw0LjE2Nyw2Ljg0Miw4LjU3Miw2Ljg0MmMzLjIyOCwwLDcuMzE0LTEuMjYsNy4zMTQtNS4xOWMwLTMuMzg0LTQuNjQyLTQuNTYzLTEyLjY2Ni02LjI5Mw0KCQkJYy02LjQ0NS0xLjQyLTEyLjg5Ny0zLjY5Ny0xMi44OTctMTAuODU0YzAtMTAuMzgsOC45NzQtMTMuMDU2LDE3LjcwMi0xMy4wNTZjOC44ODMsMCwxNy4wNjIsMi45ODcsMTcuOTI5LDEyLjk3OUgzOS44MQ0KCQkJYy0wLjMxMy00LjMyOS0zLjYxNS01LjUxLTcuNjI5LTUuNTFjLTIuNTE2LDAtNi4yMTIsMC40NzQtNi4yMTIsMy43NzhjMCw0LjAxLDYuMjk0LDQuNTYxLDEyLjY2MSw2LjA1Nw0KCQkJYzYuNTI3LDEuNDkzLDEyLjkwMiwzLjg1NCwxMi45MDIsMTEuNDA0YzAsMTAuNjk1LTkuMjg0LDE0LjE1NC0xOC41NjcsMTQuMTU0Yy05LjQzNSwwLTE4LjYzNS0zLjUzNy0xOS4xMS0xNC4zMTFIMjQuNDc0DQoJCQlMMjQuNDc0LDc1LjcyM3oiLz4NCgkJPHBhdGggZD0iTTU1LjIxOCw2MC43NzljMC42MjYtMTAuNDYzLDkuOTg0LTEzLjYwOSwxOS4xMDctMTMuNjA5YzguMTA3LDAsMTcuODU5LDEuODEsMTcuODU5LDExLjU2djIxLjE2MQ0KCQkJYzAsMy42OTUsMC4zOSw3LjM5NCwxLjQxMSw5LjA0MUg4Mi4yNzJjLTAuMzk3LTEuMjU1LTAuNzA1LTIuNTktMC43ODctMy45M2MtMy41MzcsMy42OTctOC43MzMsNS4wMzEtMTMuNjg1LDUuMDMxDQoJCQljLTcuNzA2LDAtMTMuODQtMy44NTItMTMuODQtMTIuMTkyYzAtOS4xOTgsNi45MTctMTEuMzk5LDEzLjg0LTEyLjM0NmM2Ljg0Mi0xLjAyMSwxMy4yMTItMC43ODQsMTMuMjEyLTUuMzQ2DQoJCQljMC00Ljc5Mi0zLjMwMS01LjUxLTcuMjM2LTUuNTFjLTQuMjQ0LDAtNi45OTYsMS43MzQtNy4zOTYsNi4xNEg1NS4yMTh6IE04MS4wMTMsNjkuMDM1Yy0xLjg4OCwxLjY1LTUuODIsMS43MzItOS4yNzcsMi4zNjENCgkJCWMtMy40NjMsMC43MDktNi42MDksMS44ODctNi42MDksNS45NzdjMCw0LjE3MSwzLjIyOCw1LjE5MSw2LjgzOSw1LjE5MWM4LjczMywwLDkuMDQ4LTYuOTIyLDkuMDQ4LTkuMzU5TDgxLjAxMyw2OS4wMzUNCgkJCUw4MS4wMTMsNjkuMDM1eiIvPg0KCQk8cGF0aCBkPSJNOTYuOTAxLDMyLjc3OWgxMS4xNjlWNTMuOTNoMC4yMzdjMi44My00LjU1Niw3LjcwNy02Ljc2LDExLjg3Ni02Ljc2YzExLjg3NywwLDE0Ljg2NCw2LjY4NSwxNC44NjQsMTYuNzUxdjI1LjAxMQ0KCQkJaC0xMS4xNzNWNjUuOTY4YzAtNi42ODctMS45NTktOS45ODktNy4xNTMtOS45ODljLTYuMDU5LDAtOC42NTEsMy4zODEtOC42NTEsMTEuNjQydjIxLjMxMUg5Ni45MDFWMzIuNzc5eiIvPg0KCQk8cGF0aCBkPSJNMTUxLjA5NCw0MS45OGgtMTEuMTd2LTkuMjAyaDExLjE3VjQxLjk4eiBNMTM5LjkyNCw0OC4yNzJoMTEuMTd2NDAuNjZoLTExLjE3VjQ4LjI3MnoiLz4NCgkJPHBhdGggZD0iTTE1Ni4xNDYsMzIuNzc5aDExLjE3djIwLjQ0OWgwLjE1OGMyLjc0Ni00LjE3LDcuNzg1LTYuMDU3LDEyLjgxNi02LjA1N2M4LjEwNCwwLDE2LjgzLDYuNTI2LDE2LjgzLDIxLjM5Ng0KCQkJYzAsMTQuOTQzLTguNzI3LDIxLjQ2OC0xNi44MywyMS40NjhjLTUuOTc2LDAtMTAuOTI5LTEuODEtMTMuMzY3LTYuMjkxaC0wLjE2djUuMTg4aC0xMC42MTdWMzIuNzc5TDE1Ni4xNDYsMzIuNzc5eg0KCQkJIE0xNzYuNDM4LDU1LjU4NWMtNi42MDgsMC05LjUxNSw2LjIxMS05LjUxNSwxMy4wNThjMCw2Ljc2NywyLjkwNiwxMi45NzcsOS41MTUsMTIuOTc3YzYuNjA1LDAsOS41MTYtNi4yMSw5LjUxNi0xMi45NzcNCgkJCUMxODUuOTUzLDYxLjc5NiwxODMuMDQzLDU1LjU4NSwxNzYuNDM4LDU1LjU4NXoiLz4NCgkJPHJlY3QgeD0iMzkxLjAzNSIgeT0iNzkuNzMiIHdpZHRoPSIxMS4xNjciIGhlaWdodD0iOS4yMDEiLz4NCgkJPHJlY3QgeD0iMjAwLjIzNyIgeT0iNDguMjcyIiB3aWR0aD0iMTEuMTY4IiBoZWlnaHQ9IjQwLjY2Ii8+DQoJCTxwYXRoIGQ9Ik0yMTYuNDU4LDQ4LjI3MmgxMC42MTN2NS42NThoMC4yNGMyLjgzMS00LjU1Niw3LjcwNS02Ljc2LDEyLjQzLTYuNzZjMTEuODczLDAsMTQuODYxLDYuNjg1LDE0Ljg2MSwxNi43NTF2MjUuMDExDQoJCQloLTExLjE2OFY2NS45NjhjMC02LjY4Ny0xLjk2OC05Ljk4OS03LjE1OS05Ljk4OWMtNi4wNTMsMC04LjY1LDMuMzgxLTguNjUsMTEuNjQydjIxLjMxMWgtMTEuMTY3VjQ4LjI3MkwyMTYuNDU4LDQ4LjI3MnoiLz4NCgkJPHBhdGggZD0iTTI4OC43MTIsODMuNzQyaC0wLjE1M2MtMi42MDMsNC40MDItNy4xNjMsNi4yOTEtMTIuMzU0LDYuMjkxYy0xMi4yNjksMC0xOC4yNDYtMTAuNTM3LTE4LjI0Ni0yMS43ODMNCgkJCWMwLTEwLjkzNCw2LjA1My0yMS4wOCwxOC4wMTEtMjEuMDhjNC43OTYsMCw5LjUxNiwyLjA0MiwxMi4wMzgsNi4wNTdoMC4xNTRWMzIuNzc5aDExLjE2OHY1Ni4xNTNoLTEwLjYxN1Y4My43NDJMMjg4LjcxMiw4My43NDJ6DQoJCQkgTTI3OC45NTcsNTUuNTg1Yy03LjMxNCwwLTkuODMxLDYuMjkyLTkuODMxLDEyLjk4MWMwLDYuMzY5LDIuOTE0LDEzLjA1Miw5LjgzMSwxMy4wNTJjNy4zOSwwLDkuNjAyLTYuNDQ2LDkuNjAyLTEzLjEzNA0KCQkJQzI4OC41NTksNjEuODc2LDI4Ni4xOTYsNTUuNTg1LDI3OC45NTcsNTUuNTg1eiIvPg0KCQk8cGF0aCBkPSJNMzEzLjUzOSw3MS4zMTZjMC4zMTIsNy4wNzgsMy43NzEsMTAuMzAyLDkuOTg1LDEwLjMwMmM0LjQ4NSwwLDguMTAyLTIuNzUxLDguODEyLTUuMjY5aDkuODI5DQoJCQljLTMuMTQ5LDkuNTk2LTkuODI5LDEzLjY4NC0xOS4wMzIsMTMuNjg0Yy0xMi44MTksMC0yMC43NjEtOC44MDUtMjAuNzYxLTIxLjM5MWMwLTEyLjE5LDguNDEyLTIxLjQ3MywyMC43NjEtMjEuNDczDQoJCQljMTMuODQsMCwyMC41MywxMS42NDIsMTkuNzQxLDI0LjE0NkgzMTMuNTM5eiBNMzMxLjcwOCw2NC4yMzZjLTEuMDI0LTUuNjYyLTMuNDYxLTguNjUxLTguODg5LTguNjUxDQoJCQljLTcuMDc5LDAtOS4xMjUsNS41MDUtOS4yOCw4LjY1MUgzMzEuNzA4eiIvPg0KCQk8cGF0aCBkPSJNMzQ1LjU1LDQ4LjI3MmgxMC42MnY1LjY1OGgwLjIzOGMyLjgyNS00LjU1Niw3LjcwMy02Ljc2LDEyLjQyNS02Ljc2YzExLjg3MywwLDE0Ljg2NSw2LjY4NSwxNC44NjUsMTYuNzUxdjI1LjAxMQ0KCQkJaC0xMS4xNzRWNjUuOTY4YzAtNi42ODctMS45NjYtOS45ODktNy4xNTYtOS45ODljLTYuMDU3LDAtOC42NSwzLjM4MS04LjY1LDExLjY0MnYyMS4zMTFIMzQ1LjU1VjQ4LjI3MnoiLz4NCgkJPHBhdGggZD0iTTQzNi40NzMsNjIuNTMxYy0wLjcxLTQuNTY2LTMuNjE1LTcuMDAzLTguMjYyLTcuMDAzYy03LjE1NiwwLTkuNTE5LDcuMjM2LTkuNTE5LDEzLjIxNGMwLDUuODIsMi4yODMsMTIuODIsOS4yODIsMTIuODINCgkJCWM1LjE5NCwwLDguMTgzLTMuMzA0LDguODkxLTguMjU4aDEwLjc3OGMtMS40MjEsMTAuNzc0LTguODksMTYuNjcyLTE5LjU4NywxNi42NzJjLTEyLjI3MSwwLTIwLjUzMi04LjY1Mi0yMC41MzItMjAuODQxDQoJCQljMC0xMi42NjIsNy41NTctMjIuMDIsMjAuNzcxLTIyLjAyYzkuNTk1LDAsMTguNDAyLDUuMDI4LDE5LjExLDE1LjQxNUg0MzYuNDczeiIvPg0KCQk8cGF0aCBkPSJNNDcxLjMxMiw0Ny4xMTdjMTIuODE2LDAsMjEuMDcyLDguNDksMjEuMDcyLDIxLjQ2N2MwLDEyLjkwMi04LjI1NiwyMS4zOTMtMjEuMDcyLDIxLjM5Mw0KCQkJYy0xMi43NDcsMC0yMS4wMDItOC40ODgtMjEuMDAyLTIxLjM5M0M0NTAuMzEyLDU1LjYwNiw0NTguNTY1LDQ3LjExNyw0NzEuMzEyLDQ3LjExN3ogTTQ3MS4zMTIsODEuNTYyDQoJCQljNy42MywwLDkuOTA3LTYuNTI3LDkuOTA3LTEyLjk3OWMwLTYuNTI2LTIuMjc3LTEzLjA1Ni05LjkwNy0xMy4wNTZjLTcuNTU0LDAtOS44MzgsNi41My05LjgzOCwxMy4wNTYNCgkJCUM0NjEuNDc2LDc1LjAzNSw0NjMuNzYsODEuNTYyLDQ3MS4zMTIsODEuNTYyeiIvPg0KCQk8cGF0aCBkPSJNNDk1LjQ4NSw0OC4yMTNoMTAuNTM5djUuNTA2aDAuMTU3YzIuOTA4LTQuMTY3LDcuMTU0LTYuNjAzLDEyLjQyNy02LjYwM2M1LjEwOSwwLDkuNjc0LDEuODgzLDExLjg3OSw2Ljc1Nw0KCQkJYzIuMzU2LTMuNTM2LDYuNjA0LTYuNzU3LDEyLjI3LTYuNzU3YzguNjQ2LDAsMTQuODYxLDQuMDA4LDE0Ljg2MSwxNC41NDZ2MjcuMjEyaC0xMS4xNjlWNjUuODMyYzAtNS40MjgtMC40Ny05LjkwNy02Ljg0LTkuOTA3DQoJCQljLTYuMjk3LDAtNy40NzUsNS4xODgtNy40NzUsMTAuMzAydjIyLjY0N2gtMTEuMTY3VjY2LjA3MmMwLTQuNzIzLDAuMzE0LTEwLjE0Ny02Ljc3MS0xMC4xNDdjLTIuMTk0LDAtNy41NDMsMS40MTMtNy41NDMsOS4zNTgNCgkJCXYyMy41OTJoLTExLjE2OVY0OC4yMTNMNDk1LjQ4NSw0OC4yMTN6Ii8+DQoJPC9nPg0KPC9nPg0KPC9zdmc+DQo=') no-repeat;
+            }
+
+            body:after {
+                content: " ";
+                background-size: 159px 34px;
+                width: 159px;
+                height: 34px;
+                position: absolute;
+                bottom: 30px;
+                right: 30px;
+            }
+
+            .reveal .logo {
+                display: inline-block;
+                text-align: center;
+                width: 477px;
+                height: 102px;
+                text-indent: -10000px;
+                background-size: 477px 102px;
+                margin-bottom: 50px;
+            }
+
+            .reveal img.borderless {
+                border: none;
+                box-shadow: none;
+            }
+
+            #nodejs-logo,
+            #grunt-logo,
+            #angular-logo {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 50px;
+                display: none;
+                border: medium none;
+                box-shadow: none;
+            }
+
+            #nodejs-logo {
+                height: 100px;
+                left: 330px;
+                top: 450px;
+            }
+
+            #angular-logo {
+                height: 200px;
+                left: -30px;
+                top: -50px;
+            }
+
+            #grunt-logo {
+                height: 200px;
+                left: 800px;
+                top: -50px;
+            }
+
+        </style>
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+
+    </head>
+
+    <body>
+
+    <span style="display:none">
+    PROBLEM 1: İmkansızlıklar
+        * Web sayfası değil, web Uygulaması yapıyoruz.
+        * IE ile yaşama zorunluluğu
+        * jQuery
+
+
+        * Gelişen tarayıcılar, IE'den kurtulma, HTML5-CSS3, Mobil cihazlar
+
+
+    PROBLEM 2: Back-end merkezli geliştirme ortamları
+        * Bir ton template engine
+        * Hantal geliştirme ortamları (Eclipse, Visual Studio)
+        * Test etme zorlukları (İşi yapmak 3 dakika, test etmek 30 dakika)
+
+    jQuery
+        En çok DOM manipulasyonu için kullanıyoruz.
+        Javascript ile DOM manipulasyonu yapmak zorunda kalmak üzücü
+        "Sana dar gelen bana bol geliyor"
+
+    Internet Explorer
+        "Bu site en iyi..."
+        Sahibinden Ekim ayi ortalamasi %26.8 (IE 10 haric, %15.1)
+        Mobil cihazlarin artisi (Ekim ayi %14.27)
+
+    github.com/sahibinden
+        angular-router-advanced
+        connect-api-mocker
+        grunt-stylus-sprite
+    </span>
+
+        <div class="reveal">
+
+            <!-- Any section element inside of this container is displayed as a slide -->
+            <div class="slides">
+                <section>
+                    <h3 class="logo">Sahibinden.com</h3>
+                    <h1>yeni<br/> Front-end mimarisi</h1>
+                    <p>
+                        <small><a href="http://muratcorlu.com">Murat Çorlu</a> / <a href="http://twitter.com/muratcorlu">@muratcorlu</a></small>
+                    </p>
+                </section>
+
+                <section>
+                    <h1>Murat Çorlu</h1>
+                    <h3>sahibinden.com'da <span lang="en">Principle Front-end Developer</span></h3>
+                    <ul>
+                        <li><a href="http://github.com/muratcorlu">github.com/muratcorlu</a></li>
+                        <li><a href="http://twitter.com/muratcorlu">@muratcorlu</a></li>
+                        <li><a href="http://muratcorlu.com">muratcorlu.com</a></li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Front-end geliştiricisinin dramı</h2>
+                    <img src="images/kucuk-emrah.jpg">
+                </section>
+
+                <section>
+                    <img src="images/kucuk-emrah.jpg" height="100">
+
+                    <h3>Internet Explorer</h3>
+                    <ul>
+                        <li class="fragment">"Bu site en iyi ..."</li>
+                        <li class="fragment">Kullanım oranı %73,5 (Ekim 2010)</li>
+                        <li class="fragment">Güncelletme zorluğu</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <img src="images/kucuk-emrah.jpg" height="100">
+
+                    <h3>Back-end merkezli geliştirme ortamları</h3>
+                    <ul>
+                        <li class="fragment">Template engine'ler (Smarty, PHPTAL, Thymeleaf ...)</li>
+                        <li class="fragment">Hantal IDE'ler (Eclipse, Visual Studio)</li>
+                        <li class="fragment">Test etme zorlukları</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <img src="images/kucuk-emrah.jpg" height="100">
+
+                    <h3>Yokluklar</h3>
+
+                    <ul>
+                        <li class="fragment">"Yuvarlak buton mu olur arkadaş!"</li>
+                        <li class="fragment">"Şu 4 fonttan başkasını kullanamıyoruz: ..."</li>
+                        <li class="fragment">"Hocam o işler için Flash lazım, o da bizde yok."</li>
+                        <li class="fragment">"Explorer yok de, sana dünyaları vereyim."</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Artık devir değişti</h2><h2>Tabi Front-end de değişti</h2>
+                    <img src="images/celik.jpg">
+                </section>
+
+                <section>
+                    <img src="images/celik.jpg" height="100">
+
+                    <h3>Internet Explorer</h3>
+                    <ul>
+                        <li class="fragment">Sahibinden Ekim ayı ortalaması %26.8 (IE 10 hariç, %15.1)</li>
+                        <li class="fragment">Mobil cihazların artışı (Ekim ayı %14.27)</li>
+                    </ul>
+
+                    <div class="fragment">
+                        <p>Google 'ie fix' arama oranları (Ocak 2009 - Ekim 2013)</p>
+                        <img src="images/ie-fix-trends.png">
+                    </div>
+                </section>
+
+                <section>
+                    <img src="images/celik.jpg" height="100">
+
+                    <h3>"Backend bağımsız" geliştirme ortamları</h3>
+                    <ul>
+                        <li class="fragment">REST API</li>
+                        <li class="fragment" data-show="nodejs-logo">Node.JS</li>
+                        <li class="fragment" data-show="grunt-logo">Grunt</li>
+                        <li class="fragment" data-show="angular-logo">"Web Uygulaması" geliştirme çatıları (AngularJS)</li>
+                    </ul>
+
+                    <img src="images/node-logo.png" id="nodejs-logo">
+                    <img src="images/angular-logo.png" id="angular-logo">
+                    <img src="images/grunt.png" id="grunt-logo">
+                </section>
+
+                <section>
+                    <img src="images/celik.jpg" height="100">
+
+                    <h3>Hayaldi, gerçek oldu</h3>
+
+                    <ul>
+                        <li class="fragment">HTML5 desteği %60-70'lere vardı.</li>
+                        <li class="fragment">CSS3 desteği %85'lere vardı.</li>
+                        <li class="fragment">Otomatik güncellenen tarayıcılar yaygınlaştı.</li>
+                        <li class="fragment">Flash gibi eklentilere ihtiyaç azaldı.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Sahibinden.com'da değişim rüzgarı</h2>
+                    <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNi4wLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iNTcycHgiIGhlaWdodD0iMTIzcHgiIHZpZXdCb3g9IjAgMCA1NzIgMTIzIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA1NzIgMTIzIiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxwb2x5Z29uIGZpbGw9IiNGRkU4MDAiIHBvaW50cz0iNTU2LjU1MiwtMC4wNTggNTQwLjM3NCwtMC4wNTggMzEuMSwtMC4wNTggMTQuOTIzLC0wLjA1OCAwLjE0MSwtMC4wNTggMC4xNDEsMTQuNzI0IDAuMTQxLDIyLjI3OSANCgkwLjE0MSwxMDAuNTMzIDAuMTQxLDEwOC4wODggMC4xNDEsMTIyLjg3MSAxNC45MjMsMTIyLjg3MSAzMS4xLDEyMi44NzEgNTQwLjM3NCwxMjIuODcxIDU1Ni41NTIsMTIyLjg3MSA1NzEuMzMzLDEyMi44NzEgDQoJNTcxLjMzMywxMDguMDg4IDU3MS4zMzMsMTAwLjUzMyA1NzEuMzMzLDIyLjI3OSA1NzEuMzMzLDE0LjcyNCA1NzEuMzMzLC0wLjA1OCAiLz4NCjxnPg0KCTxyZWN0IHg9IjIwMC4yMzciIHk9IjMyLjc3OSIgd2lkdGg9IjExLjE2OCIgaGVpZ2h0PSI5LjIwMiIvPg0KCTxnPg0KCQk8cGF0aCBkPSJNMjQuNDc0LDc1LjcyM2MwLjA3NSw0Ljg3NSw0LjE2Nyw2Ljg0Miw4LjU3Miw2Ljg0MmMzLjIyOCwwLDcuMzE0LTEuMjYsNy4zMTQtNS4xOWMwLTMuMzg0LTQuNjQyLTQuNTYzLTEyLjY2Ni02LjI5Mw0KCQkJYy02LjQ0NS0xLjQyLTEyLjg5Ny0zLjY5Ny0xMi44OTctMTAuODU0YzAtMTAuMzgsOC45NzQtMTMuMDU2LDE3LjcwMi0xMy4wNTZjOC44ODMsMCwxNy4wNjIsMi45ODcsMTcuOTI5LDEyLjk3OUgzOS44MQ0KCQkJYy0wLjMxMy00LjMyOS0zLjYxNS01LjUxLTcuNjI5LTUuNTFjLTIuNTE2LDAtNi4yMTIsMC40NzQtNi4yMTIsMy43NzhjMCw0LjAxLDYuMjk0LDQuNTYxLDEyLjY2MSw2LjA1Nw0KCQkJYzYuNTI3LDEuNDkzLDEyLjkwMiwzLjg1NCwxMi45MDIsMTEuNDA0YzAsMTAuNjk1LTkuMjg0LDE0LjE1NC0xOC41NjcsMTQuMTU0Yy05LjQzNSwwLTE4LjYzNS0zLjUzNy0xOS4xMS0xNC4zMTFIMjQuNDc0DQoJCQlMMjQuNDc0LDc1LjcyM3oiLz4NCgkJPHBhdGggZD0iTTU1LjIxOCw2MC43NzljMC42MjYtMTAuNDYzLDkuOTg0LTEzLjYwOSwxOS4xMDctMTMuNjA5YzguMTA3LDAsMTcuODU5LDEuODEsMTcuODU5LDExLjU2djIxLjE2MQ0KCQkJYzAsMy42OTUsMC4zOSw3LjM5NCwxLjQxMSw5LjA0MUg4Mi4yNzJjLTAuMzk3LTEuMjU1LTAuNzA1LTIuNTktMC43ODctMy45M2MtMy41MzcsMy42OTctOC43MzMsNS4wMzEtMTMuNjg1LDUuMDMxDQoJCQljLTcuNzA2LDAtMTMuODQtMy44NTItMTMuODQtMTIuMTkyYzAtOS4xOTgsNi45MTctMTEuMzk5LDEzLjg0LTEyLjM0NmM2Ljg0Mi0xLjAyMSwxMy4yMTItMC43ODQsMTMuMjEyLTUuMzQ2DQoJCQljMC00Ljc5Mi0zLjMwMS01LjUxLTcuMjM2LTUuNTFjLTQuMjQ0LDAtNi45OTYsMS43MzQtNy4zOTYsNi4xNEg1NS4yMTh6IE04MS4wMTMsNjkuMDM1Yy0xLjg4OCwxLjY1LTUuODIsMS43MzItOS4yNzcsMi4zNjENCgkJCWMtMy40NjMsMC43MDktNi42MDksMS44ODctNi42MDksNS45NzdjMCw0LjE3MSwzLjIyOCw1LjE5MSw2LjgzOSw1LjE5MWM4LjczMywwLDkuMDQ4LTYuOTIyLDkuMDQ4LTkuMzU5TDgxLjAxMyw2OS4wMzUNCgkJCUw4MS4wMTMsNjkuMDM1eiIvPg0KCQk8cGF0aCBkPSJNOTYuOTAxLDMyLjc3OWgxMS4xNjlWNTMuOTNoMC4yMzdjMi44My00LjU1Niw3LjcwNy02Ljc2LDExLjg3Ni02Ljc2YzExLjg3NywwLDE0Ljg2NCw2LjY4NSwxNC44NjQsMTYuNzUxdjI1LjAxMQ0KCQkJaC0xMS4xNzNWNjUuOTY4YzAtNi42ODctMS45NTktOS45ODktNy4xNTMtOS45ODljLTYuMDU5LDAtOC42NTEsMy4zODEtOC42NTEsMTEuNjQydjIxLjMxMUg5Ni45MDFWMzIuNzc5eiIvPg0KCQk8cGF0aCBkPSJNMTUxLjA5NCw0MS45OGgtMTEuMTd2LTkuMjAyaDExLjE3VjQxLjk4eiBNMTM5LjkyNCw0OC4yNzJoMTEuMTd2NDAuNjZoLTExLjE3VjQ4LjI3MnoiLz4NCgkJPHBhdGggZD0iTTE1Ni4xNDYsMzIuNzc5aDExLjE3djIwLjQ0OWgwLjE1OGMyLjc0Ni00LjE3LDcuNzg1LTYuMDU3LDEyLjgxNi02LjA1N2M4LjEwNCwwLDE2LjgzLDYuNTI2LDE2LjgzLDIxLjM5Ng0KCQkJYzAsMTQuOTQzLTguNzI3LDIxLjQ2OC0xNi44MywyMS40NjhjLTUuOTc2LDAtMTAuOTI5LTEuODEtMTMuMzY3LTYuMjkxaC0wLjE2djUuMTg4aC0xMC42MTdWMzIuNzc5TDE1Ni4xNDYsMzIuNzc5eg0KCQkJIE0xNzYuNDM4LDU1LjU4NWMtNi42MDgsMC05LjUxNSw2LjIxMS05LjUxNSwxMy4wNThjMCw2Ljc2NywyLjkwNiwxMi45NzcsOS41MTUsMTIuOTc3YzYuNjA1LDAsOS41MTYtNi4yMSw5LjUxNi0xMi45NzcNCgkJCUMxODUuOTUzLDYxLjc5NiwxODMuMDQzLDU1LjU4NSwxNzYuNDM4LDU1LjU4NXoiLz4NCgkJPHJlY3QgeD0iMzkxLjAzNSIgeT0iNzkuNzMiIHdpZHRoPSIxMS4xNjciIGhlaWdodD0iOS4yMDEiLz4NCgkJPHJlY3QgeD0iMjAwLjIzNyIgeT0iNDguMjcyIiB3aWR0aD0iMTEuMTY4IiBoZWlnaHQ9IjQwLjY2Ii8+DQoJCTxwYXRoIGQ9Ik0yMTYuNDU4LDQ4LjI3MmgxMC42MTN2NS42NThoMC4yNGMyLjgzMS00LjU1Niw3LjcwNS02Ljc2LDEyLjQzLTYuNzZjMTEuODczLDAsMTQuODYxLDYuNjg1LDE0Ljg2MSwxNi43NTF2MjUuMDExDQoJCQloLTExLjE2OFY2NS45NjhjMC02LjY4Ny0xLjk2OC05Ljk4OS03LjE1OS05Ljk4OWMtNi4wNTMsMC04LjY1LDMuMzgxLTguNjUsMTEuNjQydjIxLjMxMWgtMTEuMTY3VjQ4LjI3MkwyMTYuNDU4LDQ4LjI3MnoiLz4NCgkJPHBhdGggZD0iTTI4OC43MTIsODMuNzQyaC0wLjE1M2MtMi42MDMsNC40MDItNy4xNjMsNi4yOTEtMTIuMzU0LDYuMjkxYy0xMi4yNjksMC0xOC4yNDYtMTAuNTM3LTE4LjI0Ni0yMS43ODMNCgkJCWMwLTEwLjkzNCw2LjA1My0yMS4wOCwxOC4wMTEtMjEuMDhjNC43OTYsMCw5LjUxNiwyLjA0MiwxMi4wMzgsNi4wNTdoMC4xNTRWMzIuNzc5aDExLjE2OHY1Ni4xNTNoLTEwLjYxN1Y4My43NDJMMjg4LjcxMiw4My43NDJ6DQoJCQkgTTI3OC45NTcsNTUuNTg1Yy03LjMxNCwwLTkuODMxLDYuMjkyLTkuODMxLDEyLjk4MWMwLDYuMzY5LDIuOTE0LDEzLjA1Miw5LjgzMSwxMy4wNTJjNy4zOSwwLDkuNjAyLTYuNDQ2LDkuNjAyLTEzLjEzNA0KCQkJQzI4OC41NTksNjEuODc2LDI4Ni4xOTYsNTUuNTg1LDI3OC45NTcsNTUuNTg1eiIvPg0KCQk8cGF0aCBkPSJNMzEzLjUzOSw3MS4zMTZjMC4zMTIsNy4wNzgsMy43NzEsMTAuMzAyLDkuOTg1LDEwLjMwMmM0LjQ4NSwwLDguMTAyLTIuNzUxLDguODEyLTUuMjY5aDkuODI5DQoJCQljLTMuMTQ5LDkuNTk2LTkuODI5LDEzLjY4NC0xOS4wMzIsMTMuNjg0Yy0xMi44MTksMC0yMC43NjEtOC44MDUtMjAuNzYxLTIxLjM5MWMwLTEyLjE5LDguNDEyLTIxLjQ3MywyMC43NjEtMjEuNDczDQoJCQljMTMuODQsMCwyMC41MywxMS42NDIsMTkuNzQxLDI0LjE0NkgzMTMuNTM5eiBNMzMxLjcwOCw2NC4yMzZjLTEuMDI0LTUuNjYyLTMuNDYxLTguNjUxLTguODg5LTguNjUxDQoJCQljLTcuMDc5LDAtOS4xMjUsNS41MDUtOS4yOCw4LjY1MUgzMzEuNzA4eiIvPg0KCQk8cGF0aCBkPSJNMzQ1LjU1LDQ4LjI3MmgxMC42MnY1LjY1OGgwLjIzOGMyLjgyNS00LjU1Niw3LjcwMy02Ljc2LDEyLjQyNS02Ljc2YzExLjg3MywwLDE0Ljg2NSw2LjY4NSwxNC44NjUsMTYuNzUxdjI1LjAxMQ0KCQkJaC0xMS4xNzRWNjUuOTY4YzAtNi42ODctMS45NjYtOS45ODktNy4xNTYtOS45ODljLTYuMDU3LDAtOC42NSwzLjM4MS04LjY1LDExLjY0MnYyMS4zMTFIMzQ1LjU1VjQ4LjI3MnoiLz4NCgkJPHBhdGggZD0iTTQzNi40NzMsNjIuNTMxYy0wLjcxLTQuNTY2LTMuNjE1LTcuMDAzLTguMjYyLTcuMDAzYy03LjE1NiwwLTkuNTE5LDcuMjM2LTkuNTE5LDEzLjIxNGMwLDUuODIsMi4yODMsMTIuODIsOS4yODIsMTIuODINCgkJCWM1LjE5NCwwLDguMTgzLTMuMzA0LDguODkxLTguMjU4aDEwLjc3OGMtMS40MjEsMTAuNzc0LTguODksMTYuNjcyLTE5LjU4NywxNi42NzJjLTEyLjI3MSwwLTIwLjUzMi04LjY1Mi0yMC41MzItMjAuODQxDQoJCQljMC0xMi42NjIsNy41NTctMjIuMDIsMjAuNzcxLTIyLjAyYzkuNTk1LDAsMTguNDAyLDUuMDI4LDE5LjExLDE1LjQxNUg0MzYuNDczeiIvPg0KCQk8cGF0aCBkPSJNNDcxLjMxMiw0Ny4xMTdjMTIuODE2LDAsMjEuMDcyLDguNDksMjEuMDcyLDIxLjQ2N2MwLDEyLjkwMi04LjI1NiwyMS4zOTMtMjEuMDcyLDIxLjM5Mw0KCQkJYy0xMi43NDcsMC0yMS4wMDItOC40ODgtMjEuMDAyLTIxLjM5M0M0NTAuMzEyLDU1LjYwNiw0NTguNTY1LDQ3LjExNyw0NzEuMzEyLDQ3LjExN3ogTTQ3MS4zMTIsODEuNTYyDQoJCQljNy42MywwLDkuOTA3LTYuNTI3LDkuOTA3LTEyLjk3OWMwLTYuNTI2LTIuMjc3LTEzLjA1Ni05LjkwNy0xMy4wNTZjLTcuNTU0LDAtOS44MzgsNi41My05LjgzOCwxMy4wNTYNCgkJCUM0NjEuNDc2LDc1LjAzNSw0NjMuNzYsODEuNTYyLDQ3MS4zMTIsODEuNTYyeiIvPg0KCQk8cGF0aCBkPSJNNDk1LjQ4NSw0OC4yMTNoMTAuNTM5djUuNTA2aDAuMTU3YzIuOTA4LTQuMTY3LDcuMTU0LTYuNjAzLDEyLjQyNy02LjYwM2M1LjEwOSwwLDkuNjc0LDEuODgzLDExLjg3OSw2Ljc1Nw0KCQkJYzIuMzU2LTMuNTM2LDYuNjA0LTYuNzU3LDEyLjI3LTYuNzU3YzguNjQ2LDAsMTQuODYxLDQuMDA4LDE0Ljg2MSwxNC41NDZ2MjcuMjEyaC0xMS4xNjlWNjUuODMyYzAtNS40MjgtMC40Ny05LjkwNy02Ljg0LTkuOTA3DQoJCQljLTYuMjk3LDAtNy40NzUsNS4xODgtNy40NzUsMTAuMzAydjIyLjY0N2gtMTEuMTY3VjY2LjA3MmMwLTQuNzIzLDAuMzE0LTEwLjE0Ny02Ljc3MS0xMC4xNDdjLTIuMTk0LDAtNy41NDMsMS40MTMtNy41NDMsOS4zNTgNCgkJCXYyMy41OTJoLTExLjE2OVY0OC4yMTNMNDk1LjQ4NSw0OC4yMTN6Ii8+DQoJPC9nPg0KPC9nPg0KPC9zdmc+DQo=">
+                </section>
+
+                <section>
+                    <h3>Sahibinden'de Mevcut Mimari Yapı</h3>
+
+                    <img src="images/mimari-eski.png">
+                </section>
+
+                <section>
+                    <h3>Sahibinden'de Yeni Mimari Yapı</h3>
+
+                    <img src="images/mimari-yeni.png">
+                </section>
+
+                <section>
+                    <h2>Yeni mimarinin avantajları</h2>
+                    <ul>
+                        <li class="fragment">Backend bağımsız önyüz geliştirebilme.</li>
+                        <li class="fragment">Hızlı ve pratik geliştirme ortamı.</li>
+                        <li class="fragment">Backend'cilerin template tabanlı işyükünden kurtulması</li>
+                        <li class="fragment">Template engine'lerin oluşturduğu sunucu yükünden kurtulmak</li>
+                        <li class="fragment">Daha düşük veri transferi</li>
+                        <li class="fragment">Daha iyi kullanıcı deneyimi (hızlı ve kullanılabilir)</li>
+                        <li class="fragment">Backend ve front-end sistemlerini birbirinden bağımsız yayına alabilme</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Dezavantaj?</h2>
+
+                    <h1 class="fragment">SEO</h1>
+                </section>
+
+                <section>
+                    <h2>SEO konusunda çözüm arayışı</h2>
+
+                    <p class="fragment">Arama motorlarının bir çözüm önerisi var.:</p>
+                    <p class="fragment">Arama motoru ziyaretlerinde, arayüzü sunucuda bir tarayıcıda çalıştırıp çıkan HTML'i arama motoruna göndermek.</p>
+
+                    <ul>
+                        <li class="fragment">PhantomJS</li>
+                        <li class="fragment">SAS çözümü: Kavuq</li>
+                    </ul>
+
+                </section>
+
+                <section>
+                    <h1>Peki malzemeler?</h1>
+                </section>
+
+                <section>
+                    <h2>Grunt</h2>
+                    <img src="images/grunt.png" class="borderless">
+                </section>
+
+                <section>
+                    <h2>Grunt'ın getirdikleri</h2>
+
+                    <ul>
+                        <li class="fragment">Hızlı kurulum</li>
+                        <li class="fragment">Otomatik kod kontrolü (JSHint)</li>
+                        <li class="fragment">Pre-processor dilleri kullanma (Stylus, Coffeescript), SourceMap üretimi</li>
+                        <li class="fragment">Yayınlamaya hazırlama (Merge, Minify, Obfuscate)</li>
+                        <li class="fragment">Otomatik dokümantasyon çıkarma (NgDocs)</li>
+                        <li class="fragment">Otomatik sprite üretme (<a href="http://github.com/sahibinden/grunt-stylus-sprite">grunt-stylus-sprite</a>)</li>
+                        <li class="fragment">Templating</li>
+                    </ul>
+
+                </section>
+
+                <section>
+                    <h2>Bower</h2>
+                    <img src="images/bower-logo.png" class="borderless">
+                </section>
+
+                <section>
+                    <h2>Bower</h2>
+
+                    <ul>
+                        <li class="fragment">Harici kütüphanelerin versiyonlama sisteminden çıkarılması</li>
+                        <li class="fragment">Projenizden bağımsız kütüphanelerinizin geliştirme ortamını ayırabilme</li>
+                        <li class="fragment">Pratik güncelleme</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>AngularJS</h2>
+                    <img src="images/angular-geliyor.jpg" class="borderless">
+                </section>
+
+                <section>
+                    <h2>Neden Angular</h2>
+
+                    <ul>
+                        <li class="fragment">"Olması gerektiği gibi" templateler</li>
+                        <li class="fragment">Directive'ler ile HTML'i extend edebilme</li>
+                        <li class="fragment">Test edilebilir kod</li>
+                        <li class="fragment">Az kod çok iş</li>
+                        <li class="fragment">jQuery bağımsız</li>
+                        <li class="fragment">Basit ve esnek URL yönetimi</li>
+                        <li class="fragment">Büyüdükçe güzelleşen projeler</li>
+                        <li class="fragment">Google yapmış</li>
+                        <li class="fragment">Eğlenceli</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>HTML pek bize göre değil</h2>
+
+                    <blockquote>
+                        <p>HTML, 1980 yılında CERN araştırmacılarının dokümanlarını paylaşabilmeleri için üretildi.</p>
+                    </blockquote>
+
+                    <p>Oysa biz HTML ile "uygulama" geliştirmeye çalışıyoruz.</p>
+                </section>
+
+                <section>
+                    <h2>Elimizde neler var?</h2>
+                    <ul>
+                        <li>h1-6</li>
+                        <li>ul, ol, li</li>
+                        <li>p, a, strong</li>
+                        <li>table, div</li>
+                        <li>article, nav, aside, header, footer</li>
+                        <li>...</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Bize ne lazım?</h2>
+                    <ul>
+                        <li>tab</li>
+                        <li>dialog</li>
+                        <li>statusbar</li>
+                        <li>menu</li>
+                        <li>grid</li>
+                        <li>...</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Tab örneği</h2>
+                    <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+<ul class="tabs">
+    <li><a href="#tab1">Baslik 1</a></li>
+    <li><a href="#tab2">Baslik 2</a></li>
+</ul>
+
+<div class="tab-contents">
+    <div id="tab1">
+        <p>Birinci Tab icerigi</p>
+    </div>
+    <div id="tab2">
+        <p>Ikinci Tab icerigi</p>
+    </div>
+</div>
+                    </code></pre>
+                    <div class="fragment">
+                        <h3>Bir de <span lang="en">Javascript</span> var:</h3>
+                        <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+$(function(){
+    $('.tabs a').on('click', function(e) {
+        e.preventDefault();
+
+        var target = $(this).attr('href');
+
+        $('.tab-contents > div').hide();
+        $(target).show();
+    });
+});
+                        </code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Şöyle olsa?</h2>
+                    <pre class="fragment"><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+<tabs>
+    <pane title="Baslik 1">
+        <p>Birinci Tab icerigi</p>
+    </pane>
+    <pane title="Baslik 2">
+        <p>Ikinci Tab icerigi</p>
+    </pane>
+</tabs>
+                    </code></pre>
+
+                    <p class="fragment">* HTML5 Web Components</p>
+                    <p class="fragment">* AngularJS Directive</p>
+                </section>
+
+                <section>
+                    <h2>Eksikleri tamamlama</h2>
+
+                    <pre class="fragment"><code style="font-size: 18px; margin-top: 20px;">
+<form name="registerForm">
+    <p><label>Kullanıcı Adı:</label>
+        <input type="text" ng-model="newuser.username" required ng-minlength="6">
+    </p>
+
+    <p><label>E-mail:</label>
+        <input type="email" ng-model="newuser.email" required></p>
+
+    <button type="submit" ng-disabled="!registerForm.$valid">Kaydol</button>
+</form>
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Teşekkürler ve hoşçakal jQuery!</h2>
+
+                    <ul>
+                        <li class="fragment">jQuery'i en çok DOM manipülasyonu için kullanıyoruz.</li>
+                        <li class="fragment">jQuery'de büyüyen proje ve ekiplerde düzenli kalmak çok zor.</li>
+                        <li class="fragment">Angular'da, Directive'ler dışında javascript'te DOM manipulasyonu yapmıyoruz.</li>
+                        <li class="fragment">Angular template'i Javascript kodumuzu olabildiğince "görselden" uzak tutuyor.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h1>DEMO ZAMANI</h1>
+                </section>
+
+                <section>
+                    <h1>SORUSU OLAN ?</h1>
+                </section>
+
+                <section>
+                    <h1>TEŞEKKÜRLER</h1>
+
+                    <p>Sunuma ulaşmak için: <a href="http://github.com/muratcorlu">github.com/muratcorlu</a></p>
+                </section>
+            </div>
+
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.min.js"></script>
+
+        <script>
+
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: false,
+                progress: true,
+                history: true,
+                center: true,
+
+                theme: 'solarized', // available themes are in /css/theme
+                transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+                    { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+                ]
+            });
+
+            Reveal.addEventListener( 'fragmentshown', function( event ) {
+                var linkedElement = event.fragment.getAttribute('data-show');
+                if (linkedElement) {
+                    document.getElementById(linkedElement).style.display = 'block';
+                }
+            } );
+
+            Reveal.addEventListener( 'fragmenthidden', function( event ) {
+                var linkedElement = event.fragment.getAttribute('data-show');
+                if (linkedElement) {
+                    document.getElementById(linkedElement).style.display = 'none';
+                }
+            } );
+        </script>
+
+    </body>
+</html>

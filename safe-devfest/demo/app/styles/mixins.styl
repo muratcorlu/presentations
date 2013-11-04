@@ -1,0 +1,127 @@
+/* Mixins.styl
+ *
+ * Snippets of reusable CSS to develop faster and keep code readable
+ */
+
+// Clearfix for clearing floats like a boss h5bp.com/q
+clearfix()
+  zoom: 1
+  &:before,
+  &:after
+    display: table
+    content: ""
+    zoom: 1
+  &:after
+    clear: both
+
+// Center-align a block level element
+center-block()
+  display: table
+  margin-left: auto
+  margin-right: auto
+
+// Input placeholder text
+placeholder(placeholderColor = #b1b1b1)
+  :-moz-placeholder
+    color: placeholderColor
+  ::-webkit-input-placeholder
+    color: placeholderColor
+
+// center block
+fixed-container()
+  width: siteWidth
+  margin-left: auto
+  margin-right: auto
+  clearfix()
+
+
+digit(v)
+  return "" + v if v < 10
+  return "A" if v == 10
+  return "B" if v == 11
+  return "C" if v == 12
+  return "D" if v == 13
+  return "E" if v == 14
+  return "F" if v == 15
+
+hex(n)
+  h = floor(n / 16) % 16
+  l = n % 16
+  digit(h) + digit(l)
+
+fullcolor(x)
+  "#" + hex(red(x)) + hex(green(x)) + hex(blue(x))
+
+// Gradients
+gradient-horizontal(startColor = #ffffff, endColor = #f6f6f6)
+  background-color: endColor
+  background-repeat: repeat-x
+  background-image: -moz-linear-gradient(top, startColor, endColor) // FF 3.6+
+  background-image: -ms-linear-gradient(top, startColor, endColor) // IE10
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, startColor), color-stop(100%, endColor)) // Safari 4+, Chrome 2+
+  background-image: -webkit-linear-gradient(top, startColor, endColor) // Safari 5.1+, Chrome 10+
+  background-image: -o-linear-gradient(top, startColor, endColor) // Opera 11.10
+  background-image: linear-gradient(top, startColor, endColor) // Le standard
+  filter: s("progid:DXImageTransform.Microsoft.gradient(startColorstr=%s, endColorstr=%s, GradientType=0)",fullcolor(startColor),fullcolor(endColor)) // IE9 and down
+
+
+gradient-vertical-three-colors(startColor = #00b3ee, midColor = #7a43b6, colorStop = 50%, endColor = #c3325f)
+  background-color: endColor
+  background-repeat: no-repeat
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(startColor), color-stop(colorStop, midColor), to(endColor))
+  background-image: -webkit-linear-gradient(startColor, midColor colorStop, endColor)
+  background-image: -moz-linear-gradient(top, startColor, midColor colorStop, endColor)
+  background-image: -ms-linear-gradient(startColor, midColor colorStop, endColor)
+  background-image: -o-linear-gradient(startColor, midColor colorStop, endColor)
+  background-image: linear-gradient(startColor, midColor colorStop, endColor)
+  filter: s("progid:DXImageTransform.Microsoft.gradient(startColorstr=%s, endColorstr=%s, GradientType=0)",fullcolor(startColor),fullcolor(endColor)) // IE9 and down, gets no color-stop at all for proper fallback
+
+// Reset filters for IE
+reset-filter()
+  filter: s("progid:DXImageTransform.Microsoft.gradient(enabled = false)")
+
+
+// Opacity
+opacity(opacity = 100)
+  filter: s("alpha(opacity=%d)", opacity)
+  opacity: (opacity / 100)
+
+// image replcament
+imageReplacement()
+	display block
+	text-indent -9999px
+
+notificationNumber(pTop = -9px, pRight = 1px)
+  background-color #c55353
+  border-radius 8px
+  color #fff
+  display block
+  font-size 11px
+  font-weight bold
+  padding 1px 5px
+  position absolute
+  top pTop
+  right pRight
+  text-indent 0
+  content attr(data-notification-count)
+
+settingIcon()
+  sprite myaccount settings_icon
+  imageReplacement()
+  display inline-block
+
+activeButtonHover()
+  background #fff
+  border-color #9d9d9d
+  text-decoration none
+
+box-sizing()
+  -webkit-box-sizing arguments
+  -moz-box-sizing arguments
+  box-sizing arguments
+
+spriteMix(folder = classified, file = notification_active)
+  sprite folder file
+  content ''
+  display inline-block
+  vertical-align middle

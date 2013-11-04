@@ -1,0 +1,81 @@
+textarea
+input[type="text"]
+input[type="password"]
+    border 1px solid #dadada
+    border-radius stnBorderRadius
+    padding 6px 8px 7px
+    font-size 14px
+
+input:focus
+    outline none
+/*
+select
+    height 30px
+    line-height 30px
+*/
+
+form
+    li
+        font-size 14px !important
+
+    dt
+    dd
+        padding 5px 0
+        line-height 35px
+
+    dt
+        float left
+        width 100px
+
+.my-account-form
+    .input-block-level[type="text"]
+        display block
+        width 100%
+        box-sizing(border-box)
+
+// CHECKBOXES & RADIOS
+// -------------------
+// Indent the labels to position radios/checkboxes as hanging
+input[type="radio"],
+input[type="checkbox"]
+    margin 0
+    margin-top 1px unquote("\9")
+    line-height normal
+
+
+// Firefox'da invalid inputlara gelen kirmizi cerceveyi kaldirir
+:-moz-ui-invalid
+    box-shadow none
+
+
+.radio,
+.checkbox
+    min-height baseLineHeight
+    // clear the floating input if there is no label text
+    padding-left 20px
+
+.radio input[type="radio"],
+.checkbox input[type="checkbox"]
+    float left
+    margin-left -20px
+
+// Move the options list down to align with labels
+.controls > .radio:first-child,
+.controls > .checkbox:first-child
+    padding-top 5px
+
+// Radios and checkboxes on same line
+.radio.inline,
+.checkbox.inline
+    display inline-block
+    padding-top 5px
+    margin-bottom 0
+    vertical-align middle
+
+.radio.inline + .radio.inline,
+.checkbox.inline + .checkbox.inline
+    margin-left 10px
+
+
+.ng-dirty.ng-invalid
+    border-color  #df8f90

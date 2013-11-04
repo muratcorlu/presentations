@@ -1,0 +1,24 @@
+<form name="addressEditForm" ng-submit="save()">
+	<dl>
+		<dt><label>Adres Adı:</label></dt>
+		<dd><input type="text" ng-model="address.name" required></p></dd>
+
+		<dt>Adres Türü:</dt>
+		<dd>
+			<label><input type="radio" ng-model="address.type" value="standart" ng-required> Bireysel</label>
+			<label><input type="radio" ng-model="address.type" value="commercial" ng-required> Kurumsal</label>
+		</dd>
+
+		<dt ng-show="address.type == 'standart'"><label>Ad:</label></dt>
+		<dd ng-show="address.type == 'standart'"><input type="text" ng-model="address.firstname" ng-required="address.type == 'standart'"></dd>
+
+		<dt ng-show="address.type == 'standart'"><label>Soyad:</label></dt>
+		<dd ng-show="address.type == 'standart'"><input type="text" ng-model="address.lastname" ng-required="address.type == 'standart'"></dd>
+
+		<dt ng-show="address.type == 'commercial'"><label>Firma Adı:</label></dt>
+		<dd ng-show="address.type == 'commercial'"><input type="text" ng-model="address.companyname" ng-required="address.type == 'commercial'"></dd>
+
+	</dl>
+
+	<button class="btn" type="submit" ng-disabled="!addressEditForm.$valid">Kaydet</button>
+</form>

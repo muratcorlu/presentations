@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+
+		body {
+			font-family: Arial;
+			text-transform: uppercase;
+		}
+		#canvas {
+			position: absolute;
+			left: 100px;
+			top: 100px;
+			width: 640px;
+			height: 480px;
+			color: white;
+		}
+
+		.box {
+			border-radius: 5px;
+		}
+
+		#service,
+		.backend,
+		.safe,
+		.mobile {
+			margin: 20px 10px;
+			padding: 20px;
+			text-align: center;
+			background-color: #333;
+		}
+
+		.backend {
+			background-color: #369;
+		}
+
+		.subbox { position: relative; }
+		.subbox:after { bottom: 100%; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; }
+		.subbox:after { border-color: rgba(51, 102, 153, 0); border-bottom-color: #336699; border-width: 20px; left: 50%; margin-left: -20px; }
+
+		.safe,
+		.mobile {
+			width: 270px;
+			float: left;
+		}
+
+		.safe {
+			background-color: #D7DF01;
+			color: #333;
+			padding: 17px;
+			border: solid;
+			margin: 0;
+			margin-right: 20px;
+		}
+
+		.mobile {
+			background-color: #999;
+			margin: 0;
+		}
+
+		.safe.subbox:after {
+			border-bottom-color: maroon;
+		}
+
+		.mobile.subbox:after {
+			border-bottom-color: #999;
+		}
+
+		.safe { position: relative; border: 2px solid #000; } .safe:after, .safe:before { bottom: 100%; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; } .safe:after { border-color: rgba(215, 223, 1, 0); border-bottom-color: #D7DF01; border-width: 20px; left: 50%; margin-left: -20px; } .safe:before { border-color: rgba(0, 0, 0, 0); border-bottom-color: #000; border-width: 23px; left: 50%; margin-left: -23px; }
+	</style>
+</head>
+<body>
+
+<div id="canvas">
+	<div id="service" class="box">SERVICE</div>
+
+	<div class="backend box subbox">REST API</div>
+
+	<div class="safe box">Front-End</div>
+	<div class="mobile box subbox">Mobile Apps</div>
+</div>
+
+</body>
+</html>

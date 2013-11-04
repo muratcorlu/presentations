@@ -1,0 +1,8 @@
+.DS_Store
+.svn
+log/*.log
+tmp/**
+safe/tmp/
+safe/build/
+node_modules/
+.sass-cache

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+
+		body {
+			font-family: Arial;
+			text-transform: uppercase;
+		}
+		#canvas {
+			position: absolute;
+			left: 100px;
+			top: 100px;
+			width: 640px;
+			height: 480px;
+			color: white;
+		}
+
+		.box {
+			border-radius: 5px;
+		}
+
+		#service {
+			margin: 20px 10px;
+			padding: 20px;
+			text-align: center;
+			background-color: #333;
+		}
+
+		.backend {
+			float: left;
+			width: 150px;
+			margin: 0 5px;
+			margin-bottom: 20px;
+			padding-top: 10px;
+			text-align: center;
+			background-color: #369;
+		}
+
+		.backend div {
+			background-color: #D7DF01;
+			color: #333;
+			margin: 10px;
+			padding: 5px;
+		}
+
+		.backend { position: relative; background: #336699; }
+		.backend:after { bottom: 100%; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; }
+		.backend:after { border-color: rgba(51, 102, 153, 0); border-bottom-color: #336699; border-width: 20px; left: 50%; margin-left: -20px; }
+
+		.mobile {
+			width: 150px;
+			padding: 10px 0;
+			margin-right: 5px;
+			text-align: center;
+			background-color: #999;
+			float: right;
+		}
+
+		.mobile { position: relative;}
+		.mobile:after { bottom: 100%; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; }
+		.mobile:after { border-color: rgba(51, 102, 153, 0); border-bottom-color: #999; border-width: 20px; left: 50%; margin-left: -20px; }
+
+
+	</style>
+</head>
+<body>
+
+<div id="canvas">
+	<div id="service" class="box">SERVICE</div>
+
+	<div class="backend box">PHP<div class="box">Smarty, PHPTAL</div></div>
+	<div class="backend box">Python <div class="box">Django</div></div>
+	<div class="backend box">JAVA <div class="box">Thymeleaf</div></div>
+	<div class="backend box" style="padding-bottom:10px;">REST API</div>
+
+	<div class="mobile box">Mobile Apps</div>
+</div>
+
+</body>
+</html>

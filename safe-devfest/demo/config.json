@@ -1,0 +1,20 @@
+{
+    "hostname": "*",
+    "port": 9001,
+    "buildDir": "build",
+    "tmpDir": "tmp",
+    "assetsPath": "assets",
+    "assetsHttpPath": "https://secure.sahibinden.com/assets/safe/",
+    "appDir": "app",
+
+    "proxy": {
+        "route": "/rest",
+        "address": "http://testbox:7082/sahibinden-api/rest"
+    },
+
+    "mocker": {
+        "route": "/rest",
+        "path": "app/mock/rest",
+        "speedSimulationLimit": 0
+    }
+}

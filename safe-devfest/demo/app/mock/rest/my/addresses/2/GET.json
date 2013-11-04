@@ -1,0 +1,19 @@
+{
+    "id": "2",
+    "name": "Ev Adresim",
+    "type": "standart",
+    "firstname": "Murat",
+    "lastname": "Çorlu",
+    "companyname": "",
+    "homePhone": "",
+    "workPhone": "+90-216-9990099",
+    "mobilePhone": "+90-543-1110011",
+    "mobileOperator": "",
+    "countryName": "Türkiye",
+    "cityName": "İstanbul",
+    "townName": "Adalar",
+    "districtName": "Büyükada",
+    "addressLine": "Merkez",
+    "taxOffice": "",
+    "taxId": ""
+}

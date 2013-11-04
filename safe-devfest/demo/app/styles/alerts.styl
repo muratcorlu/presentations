@@ -1,0 +1,69 @@
+@import mixins
+
+.warningAlert
+.errorAlert
+.successAlert
+.infoAlert
+    margin-bottom  1.5em
+    padding  1em 1.8em 1em 5.5em
+    border  1px solid #fff
+    line-height 1.3em
+    clearfix()
+
+    strong
+        display block
+        margin-bottom 0
+
+    h6
+        display  block
+        font-size  12px
+        margin-bottom  0
+
+    &:before
+        content ' '
+        display block
+        float left
+        margin-left -50px
+
+
+.warningAlert
+    border-color  #e6dd4b
+    background-color #fefdc9
+
+    h6
+        color  #878400
+
+    &:before
+        sprite alerts warning_icon
+
+
+.errorAlert
+    background-color #ffd2d3
+    border-color  #df8f90
+
+    h6
+        color  #871414
+
+    &:before
+        sprite alerts error_icon
+
+
+.successAlert
+    border-color #9adf8f
+    background-color #d4ffcd
+
+    h6
+        color  #529214
+
+    &:before
+        sprite alerts success_icon
+
+.infoAlert
+    border-color #9fc7f5
+    background-color #dbecff
+
+    h6
+        color  #2850c1
+
+    &:before
+        sprite alerts info_icon

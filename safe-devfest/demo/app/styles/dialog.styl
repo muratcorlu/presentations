@@ -1,0 +1,63 @@
+@import nib
+@import variables
+
+.dialog-content
+    color #333
+    position fixed
+    top 50%
+    left 50%
+    transform translateX(-50%) translateY(-50%)
+    z-index 99999
+    visibility hidden
+
+    h3
+        font-size 22px
+        font-weight normal
+        border-bottom 1px solid #D8D7D7
+        padding 0 0 10px 0
+        margin-bottom 10px
+
+    > div
+        transform translateY(-100%)
+        transition all .5s
+        opacity 0
+        background whiteColor
+        min-width 450px
+        padding 35px
+
+    &.dialogEffect
+        visibility visible
+
+        > div
+            transform translateY(0%)
+            opacity 1
+
+
+.overlay
+    background-color #000
+    opacity .65
+    height 100%
+    position fixed
+    width 100%
+    left 0
+    overflow hidden
+    top 0
+    z-index 99999
+
+.dialog-buttons
+    text-align right
+    margin 0
+
+.dialog-close
+    sprite dialog dialog_close
+    border 0 none
+    color #FFFFFF
+    display block
+    height 16px
+    position absolute
+    right 10px
+    text-indent -9999px
+    top 10px
+    width 16px
+    &:hover
+        sprite dialog dialog_close_hover

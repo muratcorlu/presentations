@@ -1,0 +1,131 @@
+//
+// Buttons
+// --------------------------------------------------
+
+
+// Base styles
+// --------------------------------------------------
+
+// Core
+.btn
+    display inline-block
+    padding 9px 22px
+    margin-bottom 0 // For input.btn
+    font-size btnFontSize
+    font-weight bold
+    text-align center
+    vertical-align middle
+    cursor pointer
+    border 1px solid btnBorder
+    border-radius stnBorderRadius
+    color btnColor
+    gradient-horizontal(btnTopColor, btnBottomColor)
+    text-shadow 1px 1px 0 btnTextShadowColor
+    box-shadow inset 0 0 0 1px btnInsetColor, 0 2px 2px -1px btnShadowColor
+    line-height 1.3em
+
+    &:hover
+        reset-filter()
+        background btnBottomColor
+        text-decoration none
+
+    &.disabled
+    &[disabled]
+        cursor default
+        color #d3deed
+        background #6e9bcc
+
+// Buton Tipleri
+// -------------------------------------------------
+
+// Alternative Buton
+.btn-alternative
+    border 1px solid btnAlternativeBorderColor
+    box-shadow inset 0 0 0 1px btnAlternativeInsetColor, 0 2px 2px -1px btnAlternativeShadowColor
+    color btnAlternativeColor
+    gradient-horizontal(btnAlternativeTopColor, btnAlternativeBottomColor)
+    text-shadow none
+
+    &:hover
+        reset-filter()
+        background btnAlternativeTopColor
+        border-color btnAlternativeHoverBorderColor
+
+    &.disabled
+    &[disabled]
+        cursor default
+        color #999
+        background #eee
+        border-color btnAlternativeBorderColor
+
+// Cancel buton
+.btn-cancel
+    color btnCancelColor
+
+// Special Button
+.btn-special
+    border 1px solid btnSpecialBorderColor
+    box-shadow inset 0 0 0 1px btnSpecialBoxInsetColor, 0 2px 2px -1px btnSpecialBoxShadowColor
+    color btnSpecialColor
+    gradient-horizontal(btnSpecialTopColor, btnSpecialBottomColor)
+    text-shadow 1px 1px 0 btnSpecialTextShadowColor
+
+    &:hover
+        reset-filter()
+        background btnSpecialBottomColor
+        box-shadow inset 0 0 0 1px btnSpecialHoverBoxInsetColor, 0 2px 2px -1px btnSpecialBoxShadowColor
+
+// Buton boyutları
+// --------------------------------------------------
+
+// Strong Butonlar; Landingpagelerde tek başına vurguyu sağlamak amaçlı
+.btn-strong
+    padding paddingStrongBtn
+    font-size fontSizeStrongBtn
+
+// Form Butonlar; Form elemanları yanında kullanılmak üzeri tasarlanmış butonlar
+.btn-form
+    padding paddingFormBtn
+    vertical-align top
+
+// Link Butonlar; Sayfa içinde kullanılan link seviyesindeki butonlar
+.btn-link
+    padding paddingLinkBtn
+    font-size fontSizeLinkBtn
+    line-height 1.4em
+
+// Blok butonlar
+// -----------------------------------------------------
+
+.btn-block
+    display block
+    width 100%
+    padding-right 0
+    padding-left 0
+    box-sizing(border-box)
+
+// İkonlu butonlar
+// -----------------------------------------------------
+
+.btn-icon
+    padding-left 25px
+    position relative
+
+    &:before
+        background iconSprite 0 0 no-repeat
+        content ' '
+        position absolute
+        left 4px
+        top 2px
+        width 16px
+        height 16px
+
+.btn-only-icon
+    @extends .btn-icon
+    display inline-block
+    text-indent -9999px
+    padding-right 4px
+
+    &:before
+        left 7px
+        top 3px

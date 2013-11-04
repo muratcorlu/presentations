@@ -1,0 +1,19 @@
+{
+    "id": "1",
+    "name": "İş Adresim",
+    "type": "commercial",
+    "firstname": "",
+    "lastname": "",
+    "companyname": "Gökyüzü Emlak",
+    "homePhone": "",
+    "workPhone": "+90-216-1234567",
+    "mobilePhone": "+90-533-1234567",
+    "mobileOperator": "tr-turkcell",
+    "countryName": "Türkiye",
+    "cityName": "İstanbul",
+    "townName": "Kadıköy",
+    "districtName": "Fikirtepe",
+    "addressLine": "Kemaliye Mahallesi Dalbudak Caddesi Eski Sok.",
+    "taxOffice": "Keşan",
+    "taxId": "111111111"
+}

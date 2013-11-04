@@ -1,0 +1,21 @@
+<ul class="item-list">
+	<li ng-repeat="address in addresses">
+		<a class="btn" ng-href="{{ url('my_address_edit', {addressId: address.id}) }}">Düzenle</a>
+		<button class="btn btn-alternative" ng-click="$parent.selectedAddress=address; $parent.deleteAddressDialog=true" >Sil</button>
+		<p><span ng-bind="address.name">Adres Adi</span> -
+			<strong ng-show="address.type == 'commercial'" ng-bind="address.companyname">Firma Adi</strong>
+			<strong ng-show="address.type == 'standart'" ng-bind="address|fullName">Ad Soyad</strong>
+		</p>
+	</li>
+	<li ng-hide="addresses.length > 0">Hiç adres yok.</li>
+</ul>
+
+<p><a class="btn" ng-href="{{ url('my_address_new') }}">Adres Ekle</a></p>
+
+<dialog title="Adres silme onayı" visible="deleteAddressDialog" closable="false">
+    <p>Adres silinecektir. Onaylıyor musunuz?</p>
+    <p class="dialog-buttons">
+        <a class="btn btn-alternative btn-form btn-cancel" ng-click="closeDialog()">Hayır</a>
+        <a class="btn btn-alternative btn-form" ng-click="deleteAddress(selectedAddress);closeDialog()">Evet</a>
+    </p>
+</dialog>

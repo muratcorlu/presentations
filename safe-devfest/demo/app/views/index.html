@@ -1,0 +1,56 @@
+<!doctype html>
+<html ng-app="safe">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="https://www.sahibinden.com/favicon.ico">
+
+    <!-- Bu sayfanın tarayıcıda cachelenmesini engelliyoruz -->
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+
+    <!-- Sayfa basligi page-title directive'i ile duzenlenebilir -->
+    <title></title>
+
+    <!-- build:css /assets/css/common.css -->
+    <link rel="stylesheet" type="text/css" href="<%= css.common %>">
+    <!-- endbuild -->
+
+    <!-- build:css /assets/css/app.css -->
+    <link rel="stylesheet" type="text/css" href="<%= css.app %>">
+    <!-- endbuild -->
+
+</head>
+
+<body>
+    <header>
+        <h1>Sahibinden.com Adres Yönetimi</h1>
+    </header>
+
+    <main ng-view>
+    </main>
+
+    <footer>
+        <p>&copy; sahibinden.com</p>
+    </footer>
+
+    <dialog title="Bir hata oluştu" visible="$root.errorCode" closable="false">
+        <p>Lütfen tekrar deneyiniz. (Hata kodu: {{$root.errorCode}})</p>
+        <p class="dialog-buttons">
+            <a class="btn btn-form" ng-click="$root.errorCode=false; closeDialog()">Kapat</a>
+        </p>
+    </dialog>
+
+    <!-- build:js /assets/js/vendor.js -->
+    <% js.vendor.forEach(function (path) { %><script src="<%= path %>"></script><% }) %>
+    <!-- endbuild -->
+
+    <!-- build:js /assets/js/app.js -->
+    <% js.app.forEach(function (path) { %><script src="<%= path %>"></script><% }) %>
+    <!-- endbuild -->
+
+    <% if (liveReloadEnabled) { %>
+    <script src="http://localhost:35729/livereload.js"></script>
+    <% } %>
+</body>
+</html>

@@ -1,1 +1,5 @@
 node_modules
+safe-devfest/tmp
+safe-devfest/build
+safe-devfest/demo/app/js/components
+
